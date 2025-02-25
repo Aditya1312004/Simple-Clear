@@ -1,23 +1,16 @@
-// 79% Beats
 class Solution {
     public List<Integer> getRow(int rowIndex) {
-        List<List<Integer>> triangle = new ArrayList<>();
-
-        for (int i = 0; i <= rowIndex; i++) {
-            List<Integer> row = new ArrayList<>();
-            for (int j = 0; j <= i; j++) {
-                if (j == 0 || j == i) {
-                    row.add(1); // The first and last elements in each row are 1.
-                } else {
-                    int prevRow = i - 1;
-                    int leftVal = triangle.get(prevRow).get(j - 1);
-                    int rightVal = triangle.get(prevRow).get(j);
-                    row.add(leftVal + rightVal); // Sum of the two numbers above.
-                }
+        List<Integer> res = new ArrayList<>();
+        if(rowIndex < 0 )  return res;
+        res.add(1);
+        for(int i=1;i<=rowIndex;i++){
+            for(int j=res.size()-1;j>0;j--){
+                res.set(j,res.get(j)+ res.get(j-1) );
             }
-            triangle.add(row);
+            res.add(1);
         }
+        return res;
 
-        return triangle.get(rowIndex);
+        
     }
 }
