@@ -1,15 +1,18 @@
 class Solution {
     public int findLHS(int[] nums) {
-        Arrays.sort(nums);
-        int l=0;
-        int r=1;
-        int res = 0;
-        while(r < nums.length){
-            int diff= nums[r] - nums[l];
-            if(diff == 1) res = Math.max(res,r-l+1);
-            if(diff <= 1) r++;
-            else l++;
+        HashMap<Integer , Integer> as = new HashMap<>();
+
+        for(int num : nums){
+            as.put(num , as.getOrDefault(num , 0) + 1);
         }
-        return res;
+
+        int count = 0;
+        for(int key : as.keySet()){
+            if(as.containsKey(key+1)){
+                int sum = as.get(key) + as.get(key+1);
+                count= Math.max(count , sum);
+            }
+        }
+        return count;
     }
 }
