@@ -1,35 +1,40 @@
 class Solution {
     public int maximumGain(String s, int x, int y) {
-        int score = 0;
-        char[] chars = s.toCharArray();
-        int len = chars.length;
-        char ch1 = 'a', ch2 = 'b';
-        int cnt1 = 0, cnt2 = 0;
-        if (x < y) {
-            int temp = x;
-            x = y;
-            y = temp;
-            ch1 = 'b';
-            ch2 = 'a';
+        int res = 0;
+        StringBuilder sb = new StringBuilder(s);
+
+        if(x>y){
+          res+=  function(sb , 'a' , 'b' , x);
+           res+= function(sb , 'b' , 'a' , y);
+
         }
-        for (int i = 0; i < len; i++) {
-            if (chars[i] == ch1) {
-                cnt1++;
-            } else if (chars[i] == ch2) {
-                if (cnt1 > 0) {
-                    cnt1--;
-                    score += x;
-                } else {
-                    cnt2++;
-                }
-            } else {
-                score += Math.min(cnt1, cnt2) * y;
-                cnt1 = 0;
-                cnt2 = 0;
+        else{
+            res+=function(sb , 'b' , 'a' , y);
+            res+=function(sb , 'a' , 'b' , x);
+        }
+    return res;
+    }
+
+    public int function(StringBuilder sb , char first , char second , int score ){
+        int res=0;
+        int i = 0;
+        while(i<sb.length()-1){
+            
+         if(sb.charAt(i) == first && sb.charAt(i+1) == second){
+            res+=score; 
+            sb.deleteCharAt(i);
+            sb.deleteCharAt(i);
+            if(i-1<0){
+                i=0;
             }
+            else{
+                i=i-1;
+            }
+         }
+           else{
+            i++;
+           }
         }
-        if (cnt1 != 0)
-            score += Math.min(cnt1, cnt2) * y;
-        return score;
+return res;
     }
 }
