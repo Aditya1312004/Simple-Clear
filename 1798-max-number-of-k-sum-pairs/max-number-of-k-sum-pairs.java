@@ -1,28 +1,17 @@
 class Solution {
     public int maxOperations(int[] nums, int k) {
-       List<Integer> as = Arrays.stream(nums).boxed().collect(Collectors.toList());
-        Collections.sort(as);
-        int right = as.size()-1;
+        HashMap<Integer , Integer> as =new HashMap<>();
         int count = 0;
-        int left = 0;
-       while(left<right){
-            int sum = as.get(left) + as.get(right);
-            if(sum == k){
-                as.remove(right);
-               as.remove(left);
-               count++;
-               right -= 2;
-               
-               
-
-            }
-            else if(sum > k){
-                right--;
+        for(int num : nums){
+            int diff= k - num;
+            if(as.getOrDefault(diff , 0) > 0 ){
+                count++;
+                as.put(diff ,as.get(diff)-1);
             }
             else{
-                left++;
+                as.put(num , as.getOrDefault(num , 0)+1);
             }
-       }
-       return count; 
+        }
+        return count;
     }
 }
