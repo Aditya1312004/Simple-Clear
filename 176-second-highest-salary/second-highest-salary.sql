@@ -1,3 +1,5 @@
 # Write your MySQL query statement below
-select max(salary ) AS SecondHighestSalary from Employee where salary not in (select 
-max(salary ) from Employee);
+with cte as (
+    select salary , dense_rank() over(order by salary desc) AS "SecondRank" from Employee
+)
+select COALESCE((select salary from cte where SecondRank = 2 limit 1), null) as SecondHighestSalary
